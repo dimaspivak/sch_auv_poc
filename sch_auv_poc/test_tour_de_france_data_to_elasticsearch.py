@@ -60,7 +60,7 @@ def test_complete(sch, database, elasticsearch):
                                   ELASTICSEARCH_INDEX=index,
                                   TABLE_NAME_PATTERN=f'%{table_name}%')
 
-        with sch.run_test_job(pipeline, runtime_parameters, data_collector_labels=['test']) as job:
+        with sch.run_test_job(pipeline, runtime_parameters, data_collector_labels=sch.data_collector_labels) as job:
             time.sleep(10)
             data_in_elasticsearch = [hit.to_dict() for hit in elasticsearch.search(index=index).sort('rank').execute()]
             assert EXPECTED_RECORDS == data_in_elasticsearch

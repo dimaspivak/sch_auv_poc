@@ -10,7 +10,7 @@ def test_complete(sch):
     SAMPLE_DATA = dict(company='StreamSets', valuation='$1,000,000,000')
     runtime_parameters = dict(RAW_DATA=json.dumps(SAMPLE_DATA))
 
-    with sch.run_test_job(pipeline, runtime_parameters, data_collector_labels=['test']) as job:
+    with sch.run_test_job(pipeline, runtime_parameters, data_collector_labels=sch.data_collector_labels) as job:
         job_data_collector = job.data_collectors[0]
         data_collector = job_data_collector.instance
         pipeline = job_data_collector.pipeline
