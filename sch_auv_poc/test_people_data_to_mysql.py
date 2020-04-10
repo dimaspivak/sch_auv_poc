@@ -37,8 +37,9 @@ def test_complete(sch, database):
                                   TABLE_NAME=table_name)
 
         with sch.run_test_job(pipeline, runtime_parameters, data_collector_labels=sch.data_collector_labels) as job:
+            http_listening_port = pipeline.stages.get(label='HTTP Server 1').http_listening_port
             parse_result = urllib.parse.urlparse(job.data_collectors[0].url)
-            http_server_endpoint = f'{parse_result.scheme}://{parse_result.hostname}:8000'
+            http_server_endpoint = f'{parse_result.scheme}://{parse_result.hostname}:{http_listening_port}'
             for entry in SAMPLE_DATA:
                 requests.post(http_server_endpoint,
                               json=entry,
